@@ -10,7 +10,7 @@ import wind_icon from '../assets/wind.png';
 import humidity_icon from '../assets/humidity.png';
 import next_icon from '../assets/next.png';
 import previous_icon from '../assets/previous.png';
-import home from '../assets/home.png';
+import home from '../assets/Home.png';
 
 const WeatherWithSearch = () => {
     const inputRef = useRef();

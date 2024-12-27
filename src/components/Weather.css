@@ -1,3 +1,4 @@
+/* General Weather Component Styles */
 .weather {
     place-self: center;
     padding: 40px;
@@ -12,6 +13,40 @@
     color: white;
 }
 
+
+.search-weather-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+.search-temperature {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.search-location {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.search-details {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.search-detail-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+
+/* Search Bar */
 .search-bar {
     display: flex;
     align-items: center;
@@ -40,8 +75,14 @@
     border-radius: 50%;
     background: white;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
+.search-bar img:hover {
+    transform: scale(1.1);
+}
+
+/* Scroller and Displayed City */
 .scroller {
     display: flex;
     align-items: center;
@@ -107,23 +148,14 @@
     font-family: "Poppins", sans-serif;
 }
 
-.scroller-buttons {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-    pointer-events: none; /* Prevent blocking content clicks */
-}
-
+/* Buttons */
 .scroller-button-icon {
     width: 40px;
     height: 40px;
     cursor: pointer;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.8);
-    pointer-events: auto; /* Re-enable click for buttons */
+    pointer-events: auto;
     transition: transform 0.2s ease-in-out;
 }
 
@@ -131,10 +163,26 @@
     transform: scale(1.1);
 }
 
-.scroller-previous {
-    margin-left: -10px;
+.go-back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ff9800;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
-.scroller-next {
-    margin-right: -10px;
+.go-back-button:hover {
+    background: #e67e22;
+}
+
+.home-icon {
+    width: 20px;
+    height: 20px;
 }

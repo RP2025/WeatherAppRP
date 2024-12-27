@@ -1,73 +1,140 @@
-.weather{
+.weather {
     place-self: center;
     padding: 40px;
-    border-radius: 10px;
-    background-image: linear-gradient(45deg, #2f4680, #500ae4);
+    border-radius: 20px;
+    background: linear-gradient(180deg, #2f4680, #500ae4);
     display: flex;
     flex-direction: column;
     align-items: center;
-    }
+    position: relative;
+    width: 320px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: white;
+}
 
-.search-bar{
+.search-bar {
     display: flex;
     align-items: center;
     gap: 12px;
-    }
+    margin-bottom: 20px;
+    width: 100%;
+}
 
-.search-bar input{
-    height: 50px;
+.search-bar input {
+    height: 45px;
     border: none;
     outline: none;
-    border-radius: 40px;
-    padding-left: 25px;
-    color: #626262;
-    background: #ebfffc;
-    font-size: 18px;
-    }
+    border-radius: 20px;
+    padding-left: 20px;
+    color: #333;
+    background: white;
+    font-size: 16px;
+    flex: 1;
+    font-family: "Poppins", sans-serif;
+}
 
-.search-bar img{
-    width: 50px;
-    padding: 15px;
+.search-bar img {
+    width: 35px;
+    height: 35px;
+    padding: 7px;
     border-radius: 50%;
-    background: #ebfffc;
+    background: white;
     cursor: pointer;
-    }
+}
 
-.weather-icon{
-    width: 150px;
-    margin: 30px 0;
-    }
+.scroller {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
 
-.temperature{
-    color: #fff;
-    font-size: 80px;
-    line-height: 1;
-    }
-    
-.location{
-    color: #fff;
-    font-size: 40px;
-    }
+.scroller-item {
+    flex: 1;
+    text-align: center;
+    color: white;
+    padding: 20px 10px;
+}
 
-    .weather-data{
-        width: 100%;
-        margin-top: 40px;
-        color: #fff;
-        display: flex;
-        justify-content: space-between;
-        }
-        .weather-data .col{
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 22px;
-            }
-        
-            .weather-data .col span{
-                display: block;
-                font-size: 16px;
-                }
-                .weather-data .col img{
-                width: 26px;
-                margin-top: 10px;
-                }
+.scroller-weather-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+.scroller-temperature {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.scroller-location {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.scroller-details {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.scroller-detail-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+.scroller-detail-item img {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+}
+
+.scroller-detail-item p {
+    font-size: 16px;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+.scroller-detail-item span {
+    font-size: 12px;
+    color: #bbb;
+    font-family: "Poppins", sans-serif;
+}
+
+.scroller-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevent blocking content clicks */
+}
+
+.scroller-button-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    pointer-events: auto; /* Re-enable click for buttons */
+    transition: transform 0.2s ease-in-out;
+}
+
+.scroller-button-icon:hover {
+    transform: scale(1.1);
+}
+
+.scroller-previous {
+    margin-left: -10px;
+}
+
+.scroller-next {
+    margin-right: -10px;
+}

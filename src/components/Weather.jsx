@@ -1,24 +1,24 @@
-import React, { useState,useRef, useEffect } from 'react'
-import './Weather.css'
-import search_icon from '../assets/search.png'
-import clear_icon from '../assets/clear.png'
-import cloud_icon from '../assets/cloud.png'
-import drizzle_icon from '../assets/drizzle.png'
-import rain_icon from '../assets/rain.png'
-import snow_icon from '../assets/snow.png'
-import wind_icon from '../assets/wind.png'
-import humidity_icon from '../assets/humidity.png'
+import React, { useState, useRef, useEffect } from 'react';
+import './Weather.css';
+import search_icon from '../assets/search.png';
+import clear_icon from '../assets/clear.png';
+import cloud_icon from '../assets/cloud.png';
+import drizzle_icon from '../assets/drizzle.png';
+import rain_icon from '../assets/rain.png';
+import snow_icon from '../assets/snow.png';
+import wind_icon from '../assets/wind.png';
+import humidity_icon from '../assets/humidity.png';
+import next_icon from '../assets/next.png'; // Add your "Next" button icon here
+import previous_icon from '../assets/previous.png'; // Add your "Previous" button icon here
 
 const Weather = () => {
+    const inputRef = useRef();
 
-    const inputRef = useRef()
+    const [weatherData, setWeatherData] = useState(null);
+    const [scrollerData, setScrollerData] = useState([]);
+    const [currentCityIndex, setCurrentCityIndex] = useState(0);
 
-    const [weatherData, setWeatherData] = useState({
-        temperature: '',
-        location: '',
-        humidity: '',
-        windSpeed: ''
-    });
+    const defaultCities = ['London', 'New York', 'Tokyo'];
 
     const allIcons = {
         "01d": clear_icon,
@@ -38,89 +38,129 @@ const Weather = () => {
         "13d": snow_icon,
         "13n": snow_icon,
         "50d": wind_icon,
-        "50n": wind_icon
+        "50n": wind_icon,
     };
 
-    const search = async (city) => {
-
-    
-        if(city === '') {
-            alert('Please enter a city name')
-            return;  
-        }
-
+    const fetchWeatherData = async (city, isScroller = false) => {
         try {
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_WEATHER_API_KEY}` 
-            const response = await fetch(url)
-            const data = await response.json() 
+            console.log(`Fetching weather data for city: ${city}`);
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_WEATHER_API_KEY}`;
+            const response = await fetch(url);
+            const data = await response.json();
 
-            if(!response.ok)
-            {
-                alert(data.message);
-                return;
-            }
+            if (response.ok) {
+                const iconCode = data.weather[0]?.icon || '01d';
+                const icon = allIcons[iconCode] || clear_icon;
 
-            console.log(data)
-            // Safely map the icon
-        const iconCode = data.weather[0].icon; // Default to "01d" if icon not available
-        const icon = allIcons[iconCode] || clear_icon; // Fallback to clear_icon if not mapped
-
-            setWeatherData(
-                {
-                    humidity: data.main.humidity,
-                    windSpeed: data.wind.speed, 
-                    temperature: (Math.floor(data.main.temp - 273.15)),
+                const weatherDetails = {
                     location: data.name,
-                    icon: icon
+                    temperature: Math.floor(data.main.temp - 273.15),
+                    humidity: data.main.humidity,
+                    windSpeed: data.wind.speed,
+                    icon: icon,
+                };
+
+                if (isScroller) {
+                    setScrollerData((prevData) => {
+                        const updatedData = [...prevData];
+                        updatedData[currentCityIndex] = weatherDetails;
+                        return updatedData;
+                    });
+                } else {
+                    setWeatherData(weatherDetails);
                 }
-            )
-
-        } 
-        catch (error) {
-            
-            console.error("Error fetching weather data:", error)
-            setWeatherData(false);
+            } else {
+                console.error(`Error fetching weather data: ${data.message}`);
+            }
+        } catch (error) {
+            console.error(`Error fetching weather data: ${error.message}`);
         }
+    };
 
-    }
+    const handleNext = () => {
+        const nextIndex = (currentCityIndex + 1) % defaultCities.length;
+        setCurrentCityIndex(nextIndex);
+        fetchWeatherData(defaultCities[nextIndex], true);
+    };
+
+    const handlePrevious = () => {
+        const previousIndex =
+            currentCityIndex === 0 ? defaultCities.length - 1 : currentCityIndex - 1;
+        setCurrentCityIndex(previousIndex);
+        fetchWeatherData(defaultCities[previousIndex], true);
+    };
 
     useEffect(() => {
-        search('Chhatarpur'); // Example city
-    }, [])
+        const interval = setInterval(() => {
+            handleNext();
+        }, 4000); // Automatically scroll every 4 seconds
+
+        return () => clearInterval(interval);
+    }, [currentCityIndex]);
+
+    useEffect(() => {
+        // Fetch initial data for all scroller cities
+        defaultCities.forEach((city) => fetchWeatherData(city, true));
+        fetchWeatherData('Chhatarpur'); // Default city for main weather display
+    }, []);
 
     return (
-        <div className='weather'>
+        <div className="weather">
             <div className="search-bar">
-                <input ref={inputRef} type="text" placeholder= 'Search' />
-
-
-                <img src={search_icon} alt="" onClick={()=>search(inputRef.current.value)}/>
+                <input ref={inputRef} type="text" placeholder="Search" />
+                <img
+                    src={search_icon}
+                    alt="Search"
+                    onClick={() => fetchWeatherData(inputRef.current.value)}
+                />
             </div>
-        {weatherData?
-        
-        <>
-<img src={weatherData.icon} alt="" className='weather-icon' />
-            <p className='temperature'>{weatherData.temperature}°C</p>
-            <p className='location'>{weatherData.location}</p>
-            <div className="weather-data">
-                <div className="col">
-                    <img src={humidity_icon} alt="" />
-                    <div>
-                        <p>{weatherData.humidity}%</p>
-                        <span>Humidity</span>
+
+            {scrollerData.length > 0 && (
+                <div className="scroller">
+                    <div className="scroller-item">
+                        <img
+                            src={scrollerData[currentCityIndex]?.icon}
+                            alt="Weather Icon"
+                            className="scroller-weather-icon"
+                        />
+                        <p className="scroller-temperature">
+                            {scrollerData[currentCityIndex]?.temperature}°C
+                        </p>
+                        <p className="scroller-location">
+                            {scrollerData[currentCityIndex]?.location}
+                        </p>
+                        <div className="scroller-details">
+                            <div className="scroller-detail-item">
+                                <img src={humidity_icon} alt="Humidity Icon" />
+                                <p>{scrollerData[currentCityIndex]?.humidity}%</p>
+                                <span>Humidity</span>
+                            </div>
+                            <div className="scroller-detail-item">
+                                <img src={wind_icon} alt="Wind Icon" />
+                                <p>{scrollerData[currentCityIndex]?.windSpeed} m/s</p>
+                                <span>Wind Speed</span>
+                            </div>
+                        </div>
                     </div>
-                    <img src={wind_icon} alt="" />
-                    <div>
-                        <p>{weatherData.windSpeed}</p>
-                        <span>Wind Speed</span>
+                    <div className="scroller-buttons">
+                    <img
+    src={previous_icon}
+    alt="Previous"
+    onClick={handlePrevious}
+    className="scroller-button-icon scroller-previous"
+/>
+<img
+    src={next_icon}
+    alt="Next"
+    onClick={handleNext}
+    className="scroller-button-icon scroller-next"
+/>
+
                     </div>
                 </div>
-            </div>
-
-        </>:<></>}
-
-            
+            )}
         </div>
-    )
-}
-export default Weather
+    );
+};
+
+export default Weather;

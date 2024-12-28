@@ -132,7 +132,6 @@ const WeatherWithSearch = () => {
             const newIntervalId = setInterval(() => {
                 setCurrentCityIndex((prevIndex) => {
                     const nextIndex = (prevIndex + 1) % defaultCities.length;
-                    //console.log(`+++++++++++++`);
                     //console.log(`[Action] Scroller moved to next city: ${defaultCities[nextIndex]} at ${new Date().toLocaleString()}`);
                     // fetchWeatherData(defaultCities[nextIndex]); // Fetch weather data for the next city
                     return nextIndex;

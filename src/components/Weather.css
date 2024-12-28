@@ -1,4 +1,3 @@
-/* General Weather Component Styles */
 .weather {
     place-self: center;
     padding: 40px;
@@ -13,6 +12,21 @@
     color: white;
 }
 
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.search-item {
+    flex: 1;
+    text-align: center;
+    color: white;
+    padding: 20px 10px;
+}
 
 .search-weather-icon {
     width: 80px;
@@ -43,6 +57,24 @@
     align-items: center;
     flex-direction: column;
     color: white;
+}
+
+.search-detail-item img {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+}
+
+.search-detail-item p {
+    font-size: 16px;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+.search-detail-item span {
+    font-size: 12px;
+    color: #bbb;
+    font-family: "Poppins", sans-serif;
 }
 
 
@@ -81,7 +113,6 @@
 .search-bar img:hover {
     transform: scale(1.1);
 }
-
 /* Scroller and Displayed City */
 .scroller {
     display: flex;
@@ -164,10 +195,11 @@
 }
 
 .go-back-button {
-    margin-top: 20px;
-    padding: 10px 20px;
+    margin: 20px auto; /* Center the button horizontally */
     display: flex;
+    justify-content: center;
     align-items: center;
+    padding: 10px 20px;
     gap: 10px;
     background: #ff9800;
     border: none;
@@ -178,11 +210,63 @@
     transition: background 0.3s ease;
 }
 
+.go-back-button img {
+    margin: 0 auto;
+}
 .go-back-button:hover {
     background: #e67e22;
 }
 
 .home-icon {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* Navigation Buttons */
+.navigation-buttons {
+    position: absolute; /* Absolute positioning relative to the scroller */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center align vertically */
+}
+
+/* Button Styling */
+.scroller-button {
+    position: absolute;
+    top: 50%; /* Vertically center */
+    transform: translateY(-50%); /* Adjust for proper centering */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.scroller-prev {
+    left: 10px; /* Move button inside the left edge of the box */
+}
+
+.scroller-next {
+    right: 10px; /* Move button inside the right edge of the box */
+}
+
+
+/* Button Hover Effect */
+.scroller-button:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Button Icon Styling */
+.scroller-button img {
     width: 20px;
     height: 20px;
 }
